@@ -12,6 +12,8 @@ public class GameState {
     private static final int ClearWhiteQueenSideCastlingRightMask = 0b1101;
     private static final int ClearBlackKingSideCastlingRightMask = 0b1011;
     private static final int ClearBlackQueenSideCastlingRightMask = 0b0111;
+    private static final int ClearWhiteCastlingRight = 0b1100;
+    private static final int ClearBlackCastlingRight = 0b0011;
     
     public int enPassantSquare;
     public int castlingRights;
@@ -42,14 +44,19 @@ public class GameState {
         return (castlingRights & mask) != 0;
     }
     
-    public void clearKingSideCastlingRights(int side) {
-        int mask = side == Piece.White ? ClearWhiteKingSideCastlingRightMask : ClearBlackKingSideCastlingRightMask;
-        this.castlingRights &= mask;
+    public static int clearCastlingRight(int castlingRights, int side) {
+        int mask = side == Piece.White ? ClearWhiteCastlingRight : ClearBlackCastlingRight;
+        return castlingRights & mask;
     }
     
-    public void clearQueenSideCastlingRights(int side) {
+    public static int clearKingSideCastlingRights(int castlingRights, int side) {
+        int mask = side == Piece.White ? ClearWhiteKingSideCastlingRightMask : ClearBlackKingSideCastlingRightMask;
+        return castlingRights & mask;
+    }
+    
+    public static int clearQueenSideCastlingRights(int castlingRights, int side) {
         int mask = side == Piece.White ? ClearWhiteQueenSideCastlingRightMask : ClearBlackQueenSideCastlingRightMask;
-        this.castlingRights &= mask;
+        return castlingRights & mask;
     }
     
     public static int createCastlingRights(boolean canWhiteCastleKingSide, boolean canWhiteCastleQueenSide, boolean canBlackCastleKingSide, boolean canBlackCastleQueenSide) {
